@@ -34,8 +34,14 @@ kvs_to_iolist(KVs) ->
         ", ",
         lists:map(
             fun({K, V}) -> [to_iolist(K), ": ", to_iolist(V)] end,
-            KVs
+            filter_undefined(KVs)
         )
+    ).
+
+filter_undefined(KVs) ->
+    lists:filter(
+        fun({_, V}) -> V =/= undefined end,
+        KVs
     ).
 
 try_format_unicode(undefined) ->
